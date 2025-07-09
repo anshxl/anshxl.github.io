@@ -1,0 +1,9 @@
+title: "Anshul Srivastava"
+description: "Data Science & ML Portfolio"
+theme: minima
+plugins:
+  - jekyll-feed
+
+# Optional: set a baseurl if using a subpath
+# baseurl: ""  
+# url: "https://anshxl.github.io"
