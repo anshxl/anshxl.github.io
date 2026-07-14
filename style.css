@@ -74,25 +74,23 @@ header nav {
   gap: 1.4rem;
   flex-wrap: wrap;
   align-self: start;
-  align-items: center;
 }
 
 .theme {
-  font: inherit;
-  color: inherit;
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 10;
+  font-family: system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--dim);
   background: none;
   border: 0;
-  padding: 0;
+  padding: 0.35rem;
   cursor: pointer;
-  line-height: 1;
 }
 .theme:hover { color: var(--accent); }
-/* show the mode you'd switch TO — moon while light, sun while dark */
-.theme::after { content: "\263E"; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme::after { content: "\2600"; }
-}
-:root[data-theme="dark"] .theme::after { content: "\2600"; }
 
 /* ── sections ─────────────────────────────── */
 
