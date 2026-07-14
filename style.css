@@ -82,6 +82,19 @@ header nav {
   align-self: start;
 }
 
+/* underline wipes in, weight thickens smoothly (text-shadow avoids a layout jump) */
+header nav a {
+  border-bottom: 0;
+  padding-bottom: 3px;
+  background: linear-gradient(var(--accent), var(--accent)) no-repeat 0 100% / 0% 1.5px;
+  transition: background-size 0.25s ease, text-shadow 0.2s ease, color 0.2s ease;
+}
+header nav a:hover {
+  color: var(--accent);
+  background-size: 100% 1.5px;
+  text-shadow: 0.3px 0 currentColor, -0.3px 0 currentColor;
+}
+
 .theme {
   position: fixed;
   top: 1.25rem;
