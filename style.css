@@ -4,6 +4,12 @@
   --dim: #7d7d76;
   --rule: #ddddd6;
   --accent: #b0592a;
+  interpolate-size: allow-keywords; /* lets height:auto animate */
+}
+
+/* ease colors between light and dark on toggle */
+*, ::before, ::after {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, outline-color 0.25s ease;
 }
 
 /* dark applies from the system default, unless the user has forced light */
@@ -114,8 +120,12 @@ p:last-child { margin-bottom: 0; }
 
 /* ── entries + ascii tree ─────────────────── */
 
-.entry { margin-bottom: 1.5rem; }
+.entry { margin-bottom: 1.5rem; transition: transform 0.15s ease; }
 .entry:last-child { margin-bottom: 0; }
+
+/* nudge on hover as a highlight; hold still once open so reading is stable */
+.entry.flat:hover,
+details.entry:not([open]):hover { transform: translateX(6px); }
 
 .head, .gist { display: block; }
 .head strong { font-weight: 600; }
@@ -147,6 +157,14 @@ details.entry[open] > summary::before { content: "[\2212]"; }
 details.entry > summary:hover::before { color: var(--accent); }
 details.entry[open] > summary .gist { display: none; }
 details.entry[open] > summary { margin-bottom: 0.6rem; }
+
+/* animate the expand/collapse (progressive: older browsers just snap) */
+details.entry::details-content {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.28s ease, content-visibility 0.28s allow-discrete;
+}
+details.entry[open]::details-content { height: auto; }
 
 .entry.flat { padding-left: 2.6rem; }
 
