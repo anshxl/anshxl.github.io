@@ -132,18 +132,26 @@ def main():
         print(f"  {md.name} -> writing/{out.name}")
 
     posts.sort(reverse=True)  # newest first
-    lines = [
-        '<div class="branch">'
-        f'<span class="glyph">{"└──" if i == len(posts) - 1 else "├──"}</span>'
-        f'<span class="date">{date}</span>'
-        f'<span><a href="writing/{name}">{html.escape(title)}</a></span>'
-        "</div>"
-        for i, (date, title, name) in enumerate(posts)
-    ] or ['<div class="branch"><span class="glyph">└──</span>'
-          '<span class="dim">nothing published yet</span></div>']
+
+    # No posts yet -> hide the whole Writing section rather than showing an empty one.
+    if posts:
+        lines = "\n      ".join(
+            '<div class="branch">'
+            f'<span class="glyph">{"└──" if i == len(posts) - 1 else "├──"}</span>'
+            f'<span class="date">{date}</span>'
+            f'<span><a href="writing/{name}">{html.escape(title)}</a></span>'
+            "</div>"
+            for i, (date, title, name) in enumerate(posts)
+        )
+        section = (
+            '<section>\n    <h2>Writing</h2>\n'
+            f'    <div class="tree posts">\n      {lines}\n    </div>\n  </section>'
+        )
+    else:
+        section = ""
 
     index = ROOT / "index.html"
-    text = splice(index.read_text(), "posts", "\n    ".join(lines))
+    text = splice(index.read_text(), "writing", section)
     print(f"  index.html -> {len(posts)} post(s) listed")
 
     grid = contributions()
