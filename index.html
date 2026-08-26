@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>anshul srivastava</title>
 <meta name="description" content="ML, backend, and systems engineer. Founding engineer at Recz.">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=5">
 <link rel="icon" href="data:,">
 <script>var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t;</script>
 </head>
@@ -26,9 +26,10 @@
 
 <section>
   <h2>Now</h2>
-  <p>Founding engineer at <a href="https://apps.apple.com/us/app/recz-recommend-connect-vibe/id1582034985"><strong>Recz</strong></a>, building Rexy &mdash; a recommendation
-  agent on a custom harness over the Claude API. I work end to end: the agent loop, the
-  retrieval and ranking underneath it, and the serving layer that keeps it cheap.</p>
+  <p>Founding engineer at <a href="https://apps.apple.com/us/app/recz-recommend-connect-vibe/id1582034985"><strong>Recz</strong></a>, building the systems behind a social
+  recommendation app: a taste engine that models what you like, the search and serving
+  layers on top of it, and Rexy &mdash; an AI concierge that recommends, plans, and acts
+  on your behalf. Currently optimizing the content-ranking algorithms.</p>
 </section>
 
 <section>
@@ -37,26 +38,52 @@
   <details class="entry">
     <summary>
       <span class="head"><strong>Recz</strong> <span class="dim">&middot; founding engineer</span> <a class="ext" href="https://apps.apple.com/us/app/recz-recommend-connect-vibe/id1582034985">app store &#8599;</a></span>
-      <span class="gist">Agent, retrieval, and serving for a recommendation app.</span>
+      <span class="gist">Taste engine, search, serving, and an AI concierge for a recommendation app.</span>
     </summary>
     <div class="tree">
-      <div class="branch"><span class="glyph">├──</span><span>Rexy, a recommendation agent on a custom Claude API harness. Tool-output-as-data isolation passes 19/19 prompt-injection tests spanning base64 obfuscation, persona, and indirect attacks.</span></div>
-      <div class="branch"><span class="glyph">├──</span><span>Payload-filtering layer cut tool-result tokens ~80% (1,586 → 314 per search), A/B-verified across a 63-scenario eval suite at 97% pass with no regression.</span></div>
-      <div class="branch"><span class="glyph">├──</span><span>Taste engine: items tagged and embedded into a 98-dim space, ranked by cosine similarity. Auto-tagging at zero LLM cost (5.7k items/s, 93.9% coverage) and a cold-start gate that scores social signal when taste data is too thin to trust.</span></div>
-      <div class="branch"><span class="glyph">├──</span><span>Two-layer Redis cache cut Google Places cost ~76% per rebuild ($0.48 → $0.12), measured on organic production traffic.</span></div>
-      <div class="branch"><span class="glyph">└──</span><span>Two-layer search: Typesense over 100k+ in-app records plus live external APIs, p95 87ms warm.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Taste Engine: recommendation engine across restaurants, movies, TV, books, and music. Per-category tag taxonomies, an auto-tagging pipeline (5.7k items/s, zero LLM cost), embedded items, multi-centroid taste profiles per user, and centroid-aware cosine scoring for user&ndash;item match and user&ndash;user compatibility.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>For You page: serving layer that blends taste-engine scores with network recommendations, trending items, and hidden gems.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Search: Typesense over 100k+ in-app records plus fan-out to Google Places, TMDB, and Spotify for anything not in our DB &mdash; p95 87ms warm, with a two-layer Redis cache that cut Places cost ~76%.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Rexy, an AI concierge on a custom harness: recommendations, itineraries, navigating the app, and acting on your behalf (book a table, post a rec) &mdash; all weighed by the taste engine. Hardened against prompt injection; payload filtering cut tool-result tokens ~80%.</span></div>
+      <div class="branch"><span class="glyph">└──</span><span>Currently optimizing the content-ranking algorithms.</span></div>
     </div>
   </details>
 
-  <div class="entry flat">
-    <span class="head"><strong>Xtrium</strong> <span class="dim">&middot; materials-intelligence GraphRAG</span></span>
-    <span class="gist">Agentic GraphRAG over 200 source documents (USGS reports, trade data) &mdash; a ~2,000-node / ~5,000-edge Neo4j knowledge graph plus live web search, behind a model-agnostic chat interface.</span>
-  </div>
+  <details class="entry">
+    <summary>
+      <span class="head"><strong>Quicklly</strong> <span class="dim">&middot; data team</span> <a class="ext" href="https://quicklly.com">site &#8599;</a></span>
+      <span class="gist">Data and AI systems for the largest online Indian grocery marketplace in the US.</span>
+    </summary>
+    <div class="tree">
+      <div class="branch"><span class="glyph">├──</span><span>Product-image pipeline over a 300K+ item catalog: Serper search with Gemini Flash validation, optimized to ~4 products/sec.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>LLM batch jobs that enrich the catalog at ~650 products/sec &mdash; descriptions, recipes and usage, in-store location, and best replacements.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Supervise AskQuicklly, the in-app agent: natural-language search, basket building straight into the cart, and recipe-to-ingredients in one window.</span></div>
+      <div class="branch"><span class="glyph">└──</span><span>Data pipeline that monitors inventory synced to 1,000+ partner stores (DoorDash, Uber, Instacart), ingests their sales, and automates revenue reports.</span></div>
+    </div>
+  </details>
 
-  <div class="entry flat">
-    <span class="head"><strong>MnDOT</strong> <span class="dim">&middot; data science intern</span></span>
-    <span class="gist">Refactored radar signal processing with Numba and vectorized NumPy: 15s &rarr; 3s, making real-time analysis of road moisture profiles viable.</span>
-  </div>
+  <details class="entry">
+    <summary>
+      <span class="head"><strong>Xtrium</strong> <span class="dim">&middot; materials intelligence</span></span>
+      <span class="gist">Agentic GraphRAG that surfaces upcoming material needs and shortages. Prototype for an industry client.</span>
+    </summary>
+    <div class="tree">
+      <div class="branch"><span class="glyph">├──</span><span>Knowledge graph built in Neo4j from government reports and trade data from around the world.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Agentic retrieval over the graph plus live web search, behind a model-agnostic chat interface.</span></div>
+      <div class="branch"><span class="glyph">└──</span><span>Flags upcoming material needs and shortages before they hit supply chains.</span></div>
+    </div>
+  </details>
+
+  <details class="entry">
+    <summary>
+      <span class="head"><strong>MnDOT</strong> <span class="dim">&middot; data science intern</span></span>
+      <span class="gist">Optimized ground-penetrating-radar processing for non-invasive road moisture detection.</span>
+    </summary>
+    <div class="tree">
+      <div class="branch"><span class="glyph">├──</span><span>Van-mounted GPR surveys the road; a novel processing method resolves the raw signal into road layers (top, base, subbase, soil) and estimates moisture via Topp&rsquo;s equation.</span></div>
+      <div class="branch"><span class="glyph">└──</span><span>Rewrote the pipeline with high-performance Python &mdash; NumPy vectorization, Numba JIT, dropping heavy Pandas ops &mdash; cutting processing from ~20&ndash;30s to under 3s.</span></div>
+    </div>
+  </details>
 </section>
 
 <section>
@@ -84,10 +111,11 @@
       <span class="gist">A weekend project that became the analytics stack for a pro esports org.</span>
     </summary>
     <div class="tree">
-      <div class="branch"><span class="glyph">├──</span><span>Started it for myself, then it picked up a following on X. <a href="https://liquipedia.net/callofduty/GodLike">GodLike Esports</a> &mdash; one of India&rsquo;s largest orgs &mdash; adopted it, and it supported four international top-finishes including 3rd at CDM 2026.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Started it for myself, then it picked up a following on X. <a href="https://liquipedia.net/callofduty/GodLike">GodLike Esports</a> &mdash; one of India&rsquo;s largest orgs &mdash; adopted it. Five international top-finishes since, and now India&rsquo;s #1 team heading into the 2026 World Cup after placing 1st in 6 of 7 qualifier events.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Performance dashboards tracking players and teams across tournaments and scrims &mdash; drives decisions on player roles and map pick-bans.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>snd-scout: classical-CV pipeline that mines opponent tendencies from Search &amp; Destroy VODs &mdash; reads the minimap and HUD into a per-round table, then reports defensive and attacking setups, post-plant positions, preferred plant sites, and who holds what. Core of tournament prep.</span></div>
       <div class="branch"><span class="glyph">├──</span><span>Weapon TTK model: Monte Carlo over damage, range, and modeled accuracy to plot TTK-vs-distance. Drove the team&rsquo;s META weapon decisions.</span></div>
-      <div class="branch"><span class="glyph">├──</span><span>Computer-vision pipeline (YOLO, OpenCV) that scrapes scrim VODs, extracts player coordinates from the mini-map, and generates tactical heatmaps for opponent prep.</span></div>
-      <div class="branch"><span class="glyph">└──</span><span><a href="https://github.com/anshxl/cdm_stats">anshxl/cdm_stats</a></span></div>
+      <div class="branch"><span class="glyph">└──</span><span><a href="https://github.com/anshxl/cdm_stats">anshxl/cdm_stats</a> &middot; <a href="https://github.com/anshxl/snd-scout">anshxl/snd-scout</a></span></div>
     </div>
   </details>
 </section>
@@ -118,6 +146,25 @@
     r.dataset.theme = next;
     localStorage.setItem("theme", next);
     paint();
+  });
+})();
+
+/* every em-dash on this page was typed by hand, and will say so */
+(function () {
+  var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), nodes = [], n;
+  while ((n = w.nextNode())) if (n.nodeValue.indexOf("—") !== -1) nodes.push(n);
+  nodes.forEach(function (node) {
+    var span = document.createElement("span");
+    node.nodeValue.split("—").forEach(function (part, i) {
+      if (i) {
+        var d = document.createElement("span");
+        d.className = "emdash";
+        d.textContent = "—";
+        span.appendChild(d);
+      }
+      span.appendChild(document.createTextNode(part));
+    });
+    node.parentNode.replaceChild(span, node);
   });
 })();
 </script>
