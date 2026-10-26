@@ -37,7 +37,7 @@
 
   <details class="entry">
     <summary>
-      <span class="head"><strong>Recz</strong> <span class="dim">&middot; founding engineer</span> <a class="ext" href="https://apps.apple.com/us/app/recz-recommend-connect-vibe/id1582034985">app store &#8599;</a></span>
+      <span class="head"><strong>Recz</strong> <span class="dim">&middot; founding engineer</span> <a class="ext" href="https://apps.apple.com/us/app/recz-recommend-connect-vibe/id1582034985">app store &#8599;</a> <a class="ext" href="https://recz.ai">web &#8599;</a></span>
       <span class="gist">Taste engine, search, serving, and an AI concierge for a recommendation app.</span>
     </summary>
     <div class="tree">
@@ -45,20 +45,22 @@
       <div class="branch"><span class="glyph">├──</span><span>For You page: serving layer that blends taste-engine scores with network recommendations, trending items, and hidden gems.</span></div>
       <div class="branch"><span class="glyph">├──</span><span>Search: Typesense over 100k+ in-app records plus fan-out to Google Places, TMDB, and Spotify for anything not in our DB &mdash; p95 87ms warm, with a two-layer Redis cache that cut Places cost ~76%.</span></div>
       <div class="branch"><span class="glyph">├──</span><span>Rexy, an AI concierge on a custom harness: recommendations, itineraries, navigating the app, and acting on your behalf (book a table, post a rec) &mdash; all weighed by the taste engine. Hardened against prompt injection; payload filtering cut tool-result tokens ~80%.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Backend migration: ported the app&rsquo;s 197-endpoint API from PHP to Python with byte-identical responses, so the iOS and Android apps shipped unchanged. ~2,850 recorded parity cases verify responses, DB writes, and outbound calls. Batched queries make the wall load 2&ndash;4x faster; closed SQL injection, SSRF, and access-control holes along the way.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Web client: Rexy and For You on the web, with taste-import onboarding (Letterboxd, Goodreads, Spotify, Apple Music). Your taste profile is a particle cloud shaped by your tag vectors; a match reveal merges two profiles like colliding galaxies.</span></div>
       <div class="branch"><span class="glyph">└──</span><span>Currently optimizing the content-ranking algorithms.</span></div>
     </div>
   </details>
 
   <details class="entry">
     <summary>
-      <span class="head"><strong>Quicklly</strong> <span class="dim">&middot; data team</span> <a class="ext" href="https://quicklly.com">site &#8599;</a></span>
-      <span class="gist">Data and AI systems for the largest online Indian grocery marketplace in the US.</span>
+      <span class="head"><strong>Quicklly</strong> <span class="dim">&middot; data &amp; backend engineer</span></span>
+      <span class="gist">Inventory, search, and AI systems for the largest online Indian grocery marketplace in the US.</span>
     </summary>
     <div class="tree">
-      <div class="branch"><span class="glyph">├──</span><span>Product-image pipeline over a 300K+ item catalog: Serper search with Gemini Flash validation, optimized to ~4 products/sec.</span></div>
-      <div class="branch"><span class="glyph">├──</span><span>LLM batch jobs that enrich the catalog at ~650 products/sec &mdash; descriptions, recipes and usage, in-store location, and best replacements.</span></div>
-      <div class="branch"><span class="glyph">├──</span><span>Supervise AskQuicklly, the in-app agent: natural-language search, basket building straight into the cart, and recipe-to-ingredients in one window.</span></div>
-      <div class="branch"><span class="glyph">└──</span><span>Data pipeline that monitors inventory synced to 1,000+ partner stores (DoorDash, Uber, Instacart), ingests their sales, and automates revenue reports.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Inventory pipeline: turns raw inventories from ~500 partner stores into enriched catalogs for Uber, Instacart, and Quicklly &mdash; ~230K unique products, ~1.9M store-product rows. LLM stages parse names, normalize barcodes, dedupe, and source images; a stronger model audits each stage and halts a bad run. Images cost ~$4&ndash;5 per 1K products, and a push to every store takes minutes.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Platform performance: daily inventory loader from 7.5&ndash;10 h to minutes; search from ~447 DB queries to 13; buy-it-again from 6&ndash;16 s to 70 ms.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Search: rebuilt the Pinecone index &mdash; 1.08M never-indexed products now searchable, usable results per query ~55 &rarr; 150, embedding spend down ~90%, legacy pods retired. Removed SQL injection and XSS from the search routes.</span></div>
+      <div class="branch"><span class="glyph">└──</span><span>Supervise AskQuicklly, the in-app agent: chat, basket building, recipe-to-ingredients, AI product insights, and natural-language search on top of Pinecone.</span></div>
     </div>
   </details>
 
