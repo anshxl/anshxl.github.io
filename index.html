@@ -57,9 +57,9 @@
       <span class="gist">Inventory, search, and AI systems for the largest online Indian grocery marketplace in the US.</span>
     </summary>
     <div class="tree">
-      <div class="branch"><span class="glyph">├──</span><span>Inventory pipeline: turns raw inventories from ~500 partner stores into enriched catalogs for Uber, Instacart, and Quicklly &mdash; ~230K unique products, ~1.9M store-product rows. LLM stages parse names, normalize barcodes, dedupe, and source images; a stronger model audits each stage and halts a bad run. Images cost ~$4&ndash;5 per 1K products, and a push to every store takes minutes.</span></div>
-      <div class="branch"><span class="glyph">├──</span><span>Platform performance: daily inventory loader from 7.5&ndash;10 h to minutes; search from ~447 DB queries to 13; buy-it-again from 6&ndash;16 s to 70 ms.</span></div>
-      <div class="branch"><span class="glyph">├──</span><span>Search: rebuilt the Pinecone index &mdash; 1.08M never-indexed products now searchable, usable results per query ~55 &rarr; 150, embedding spend down ~90%, legacy pods retired. Removed SQL injection and XSS from the search routes.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Inventory pipeline: turns raw inventories from ~500 partner stores into enriched catalogs for Uber, Instacart, and Quicklly &mdash; ~230K unique products, ~1.9M store-product rows. A multi-model pipeline parses names, normalizes barcodes, dedupes, writes item details, and sources and validates images; a stronger model audits each stage and halts a bad run. Under a penny per product end to end, and a push to every store takes minutes.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Platform performance: daily inventory loader from 7.5&ndash;10 h to minutes; the slowest customer-facing endpoints (reorder suggestions, store product lists) from 6&ndash;16 s, some timing out, to under 2 s.</span></div>
+      <div class="branch"><span class="glyph">├──</span><span>Search: rebuilt the Pinecone index &mdash; 1.08M never-indexed products now searchable, ~3x more usable results per query. Moved from pods to serverless at about half the cost, and embedding spend fell ~90%. Removed SQL injection and XSS from the search routes.</span></div>
       <div class="branch"><span class="glyph">└──</span><span>Supervise AskQuicklly, the in-app agent: chat, basket building, recipe-to-ingredients, AI product insights, and natural-language search on top of Pinecone.</span></div>
     </div>
   </details>
