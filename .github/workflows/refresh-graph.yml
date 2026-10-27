@@ -22,6 +22,7 @@ jobs:
       - run: gh api user --jq .login && python build.py
         env:
           GH_TOKEN: ${{ secrets.CONTRIB_TOKEN }}
+          TZ: America/Chicago  # gh sends this as the API time zone; it decides which day a commit lands on
       - run: |
           git diff --quiet && exit 0
           git config user.name "github-actions[bot]"
