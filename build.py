@@ -22,28 +22,20 @@ import markdown
 ROOT = pathlib.Path(__file__).parent
 WRITING = ROOT / "writing"
 
+# Work account; its private counts are public on its profile, so the viewer token can read them.
+WORK_LOGIN = "anshul-qc"
+
 CONTRIB_QUERY = """
-query {
-  viewer {
-    contributionsCollection {
-      contributionCalendar {
-        totalContributions
-        weeks {
-          contributionDays { contributionCount date contributionLevel }
-        }
-      }
-    }
+fragment cal on ContributionsCollection {
+  contributionCalendar {
+    weeks { contributionDays { contributionCount date } }
   }
 }
-"""
-
-LEVELS = {
-    "NONE": 0,
-    "FIRST_QUARTILE": 1,
-    "SECOND_QUARTILE": 2,
-    "THIRD_QUARTILE": 3,
-    "FOURTH_QUARTILE": 4,
+query {
+  viewer { contributionsCollection { ...cal } }
+  work: user(login: "%s") { contributionsCollection { ...cal } }
 }
+""" % WORK_LOGIN
 
 POST = """<!doctype html>
 <html lang="en">
@@ -94,13 +86,29 @@ def contributions():
         print(f"  ! skipping commit graph: {e}")
         return None
 
-    cal = json.loads(out)["data"]["viewer"]["contributionsCollection"]["contributionCalendar"]
+    data = json.loads(out)["data"]
+    viewer, work = (
+        data[k]["contributionsCollection"]["contributionCalendar"]["weeks"] for k in ("viewer", "work")
+    )
+
+    # Sum both accounts per day; the viewer's weeks set the grid.
+    counts = {}
+    for weeks in (viewer, work):
+        for week in weeks:
+            for d in week["contributionDays"]:
+                counts[d["date"]] = counts.get(d["date"], 0) + d["contributionCount"]
+
+    # GitHub's levels are per account, so recompute them from quartiles of the combined non-zero days.
+    nonzero = sorted(c for c in counts.values() if c)
+    cuts = [nonzero[len(nonzero) * k // 4] for k in (1, 2, 3)] if nonzero else []
+
+    def level(c):
+        return 1 + sum(c > t for t in cuts) if c else 0
 
     weeks = []
-    for week in cal["weeks"]:
+    for week in viewer:
         days = "".join(
-            f'<i class="l{LEVELS[d["contributionLevel"]]}" '
-            f'title="{d["contributionCount"]} on {d["date"]}"></i>'
+            f'<i class="l{level(counts[d["date"]])}" title="{counts[d["date"]]} on {d["date"]}"></i>'
             for d in week["contributionDays"]
         )
         weeks.append(f'<div class="wk">{days}</div>')
